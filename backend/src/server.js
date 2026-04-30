@@ -8,7 +8,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: /^http:\/\/localhost(:\d+)?$/,
+  origin: [/^http:\/\/localhost(:\d+)?$/, "https://lead-flow-new.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
