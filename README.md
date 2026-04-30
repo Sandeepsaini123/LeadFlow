@@ -1,6 +1,6 @@
 # LeadFlow — Lead Management Dashboard
 
-A full-stack lead management system built with Node.js, MongoDB, and React. Manage leads, track pipeline status, visualise data with charts, and export filtered reports.
+A full-stack lead management system built with Node.js, MongoDB, and React. Manage leads, track pipeline status, visualise data with charts, export filtered reports, and get AI-powered insights.
 
 ## Live Demo
 
@@ -13,8 +13,10 @@ A full-stack lead management system built with Node.js, MongoDB, and React. Mana
 
 - **Lead Management** — Add, edit, and delete leads with full form validation
 - **Dashboard** — Real-time stats and charts (status, city, service distribution)
+- **AI Insights** — Auto-generated insights from live data (conversion rate, top city, top service, avg budget, follow-up alerts)
 - **Reports** — Filter leads by date range, city, status, and service
 - **Export CSV** — Download filtered report as a CSV file
+- **Python Analysis Script** — Standalone script for deep data analysis via terminal
 
 ---
 
@@ -33,6 +35,10 @@ A full-stack lead management system built with Node.js, MongoDB, and React. Mana
 - React Hook Form + Zod (validation)
 - Axios
 
+**Data Analysis**
+- Python 3
+- pandas, pymongo, tabulate
+
 ---
 
 ## Project Structure
@@ -46,11 +52,13 @@ A full-stack lead management system built with Node.js, MongoDB, and React. Mana
 │       ├── routes/       # Express routes
 │       └── server.js
 │
-└── frontend/
-    └── src/
-        ├── components/   # Reusable UI components
-        ├── routes/       # Page components
-        └── services/     # API layer (axios)
+├── frontend/
+│   └── src/
+│       ├── components/   # Reusable UI components
+│       ├── routes/       # Page components
+│       └── services/     # API layer (axios)
+│
+└── analysis.py           # Python data analysis script
 ```
 
 ---
@@ -64,6 +72,7 @@ A full-stack lead management system built with Node.js, MongoDB, and React. Mana
 | PUT | `/api/leads/:id` | Update a lead |
 | DELETE | `/api/leads/:id` | Delete a lead |
 | GET | `/api/leads/stats` | Dashboard statistics |
+| GET | `/api/leads/insights` | AI-generated insights |
 | GET | `/api/leads/report` | Filtered report |
 
 ### Report Query Params
@@ -92,6 +101,7 @@ A full-stack lead management system built with Node.js, MongoDB, and React. Mana
 ### Prerequisites
 - Node.js v18+
 - MongoDB Atlas account (or local MongoDB)
+- Python 3.8+
 
 ### Backend
 
@@ -131,6 +141,23 @@ npm run dev
 ```
 
 Frontend runs on `http://localhost:8080`
+
+### Python Analysis Script
+
+```bash
+pip install pymongo pandas python-dotenv tabulate
+python analysis.py
+```
+
+Reads `MONGO_URI` from `backend/.env` and prints a detailed analysis report in the terminal including status breakdown, city-wise and service-wise conversion rates, average budgets, and key insights.
+
+---
+
+## Bonus Features
+
+- **AI Insights** — Dashboard card with auto-generated insights from real-time lead data
+- **Python Script** — Terminal-based deep analysis with tabular reports using pandas
+- **Export CSV** — One-click export of filtered report data
 
 ---
 
