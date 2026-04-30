@@ -68,6 +68,83 @@ exports.getStats = async (req, res) => {
   }
 };
 
+exports.getInsights = async (req, res) => {
+  try {
+    const total = await Lead.countDocuments();
+
+    if (total === 0) {
+      return res.json({ insights: [], summary: { total: 0 } });
+    }
+
+    const [statusStats, cityStats, serviceStats, budgetStats] = await Promise.all([
+      Lead.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
+      Lead.aggregate([{ $group: { _id: "$city", count: { $sum: 1 } } }]),
+      Lead.aggregate([{ $group: { _id: "$service", count: { $sum: 1 } } }]),
+      Lead.aggregate([{ $group: { _id: null, avg: { $avg: "$budget" }, max: { $max: "$budget" } } }]),
+    ]);
+
+    const getCount = (arr, id) => arr.find((x) => x._id === id)?.count ?? 0;
+    const topCity = [...cityStats].sort((a, b) => b.count - a.count)[0];
+    const topService = [...serviceStats].sort((a, b) => b.count - a.count)[0];
+    const converted = getCount(statusStats, "Converted");
+    const rejected = getCount(statusStats, "Rejected");
+    const conversionRate = ((converted / total) * 100).toFixed(1);
+    const avgBudget = Math.round(budgetStats[0]?.avg ?? 0);
+
+    const insights = [];
+
+    insights.push({
+      type: "conversion",
+      icon: "trending-up",
+      text: `Overall conversion rate is ${conversionRate}% (${converted} out of ${total} leads converted).`,
+    });
+
+    if (topCity) {
+      insights.push({
+        type: "city",
+        icon: "map-pin",
+        text: `${topCity._id} generates the most leads with ${topCity.count} total.`,
+      });
+    }
+
+    if (topService) {
+      insights.push({
+        type: "service",
+        icon: "briefcase",
+        text: `"${topService._id}" is the most requested service (${topService.count} leads).`,
+      });
+    }
+
+    insights.push({
+      type: "budget",
+      icon: "indian-rupee",
+      text: `Average lead budget is ₹${avgBudget.toLocaleString("en-IN")}.`,
+    });
+
+    if (rejected > 0) {
+      const rejectedRate = ((rejected / total) * 100).toFixed(1);
+      insights.push({
+        type: "warning",
+        icon: "alert-circle",
+        text: `${rejectedRate}% of leads are rejected. Consider reviewing your qualification process.`,
+      });
+    }
+
+    const newLeads = getCount(statusStats, "New");
+    if (newLeads > 0) {
+      insights.push({
+        type: "action",
+        icon: "zap",
+        text: `${newLeads} leads are still in "New" status and need follow-up.`,
+      });
+    }
+
+    res.json({ insights, summary: { total, converted, conversionRate, avgBudget } });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getReport = async (req, res) => {
   try {
     const { city, status, service, startDate, endDate } = req.query;

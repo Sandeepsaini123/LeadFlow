@@ -28,6 +28,17 @@ export interface ReportFilters {
   service?: string;
 }
 
+export interface Insight {
+  type: string;
+  icon: string;
+  text: string;
+}
+
+export interface InsightsResponse {
+  insights: Insight[];
+  summary: { total: number; converted: number; conversionRate: string; avgBudget: number };
+}
+
 export interface Stats {
   total: number;
   byStatus: { name: string; value: number }[];
@@ -79,6 +90,11 @@ export const leadsApi = {
       byCity: data.cityStats.map((s) => ({ name: s._id, value: s.count })),
       byService: data.serviceStats.map((s) => ({ name: s._id, value: s.count })),
     };
+  },
+
+  async insights(): Promise<InsightsResponse> {
+    const { data } = await api.get<InsightsResponse>("/leads/insights");
+    return data;
   },
 
   async report(filters: ReportFilters): Promise<Lead[]> {

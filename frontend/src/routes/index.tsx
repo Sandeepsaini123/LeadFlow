@@ -5,7 +5,8 @@ import { StatCard } from "@/components/StatCard";
 import { PieCard, BarCard } from "@/components/ChartCard";
 import { LeadsTable, type Lead } from "@/components/LeadsTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { leadsApi, type Stats } from "@/services/api";
+import { leadsApi, type Stats, type InsightsResponse } from "@/services/api";
+import { InsightsCard } from "@/components/InsightsCard";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/")({
 
 function DashboardPage() {
   const [stats, setStats] = useState<Stats | null>(null);
+  const [insights, setInsights] = useState<InsightsResponse | null>(null);
   const [recent, setRecent] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,9 +29,10 @@ function DashboardPage() {
     let mounted = true;
     (async () => {
       try {
-        const [s, list] = await Promise.all([leadsApi.stats(), leadsApi.list()]);
+        const [s, list, ins] = await Promise.all([leadsApi.stats(), leadsApi.list(), leadsApi.insights()]);
         if (!mounted) return;
         setStats(s);
+        setInsights(ins);
         setRecent((list as Lead[]).slice(0, 5));
       } catch (e) {
         toast.error("Failed to load dashboard");
@@ -63,6 +66,8 @@ function DashboardPage() {
         <BarCard title="Leads by City" data={stats?.byCity ?? []} />
         <PieCard title="Leads by Service" data={stats?.byService ?? []} />
       </div>
+
+      <InsightsCard insights={insights?.insights ?? []} loading={loading} />
 
       <Card className="shadow-sm">
         <CardHeader>
