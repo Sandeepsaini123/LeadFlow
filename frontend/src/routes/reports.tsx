@@ -14,12 +14,6 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/reports")({
-  head: () => ({
-    meta: [
-      { title: "Reports — LeadFlow" },
-      { name: "description", content: "Filter and export lead reports by date, city, status, or service." },
-    ],
-  }),
   component: ReportsPage,
 });
 

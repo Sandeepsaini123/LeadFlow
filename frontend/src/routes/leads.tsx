@@ -11,12 +11,6 @@ import { leadsApi } from "@/services/api";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/leads")({
-  head: () => ({
-    meta: [
-      { title: "Leads — LeadFlow" },
-      { name: "description", content: "Manage all leads: add, edit, and update statuses." },
-    ],
-  }),
   component: LeadsPage,
 });
 

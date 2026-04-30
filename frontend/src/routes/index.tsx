@@ -10,12 +10,6 @@ import { InsightsCard } from "@/components/InsightsCard";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — LeadFlow" },
-      { name: "description", content: "Overview of leads, conversion stats, and distribution charts." },
-    ],
-  }),
   component: DashboardPage,
 });
 
