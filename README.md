@@ -4,8 +4,8 @@ A full-stack lead management system built with Node.js, MongoDB, and React. Mana
 
 ## Live Demo
 
-- **Frontend:** _coming soon_
-- **Backend API:** _coming soon_
+- **Frontend:** [https://lead-flow-new.vercel.app](https://lead-flow-new.vercel.app)
+- **Backend API:** [https://leadflow-api-kiyb.onrender.com](https://leadflow-api-kiyb.onrender.com)
 
 ---
 
