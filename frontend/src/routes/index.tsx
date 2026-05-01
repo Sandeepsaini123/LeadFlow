@@ -43,11 +43,12 @@ function DashboardPage() {
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Dashboard</h1>
         <p className="text-sm text-muted-foreground">A snapshot of your pipeline today.</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {/* Stat cards: 2 cols on mobile, 3 on sm, 5 on lg */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <StatCard label="Total Leads" value={loading ? "…" : stats?.total ?? 0} icon={Users} tone="primary" hint="All time" />
         <StatCard label="New" value={loading ? "…" : get("New")} icon={Sparkles} tone="info" />
         <StatCard label="Interested" value={loading ? "…" : get("Interested")} icon={TrendingUp} tone="warning" />
@@ -55,7 +56,8 @@ function DashboardPage() {
         <StatCard label="Rejected" value={loading ? "…" : get("Rejected")} icon={XCircle} tone="danger" />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      {/* Charts: 1 col on mobile, 3 on lg */}
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
         <PieCard title="Lead Status" data={stats?.byStatus ?? []} />
         <BarCard title="Leads by City" data={stats?.byCity ?? []} />
         <PieCard title="Leads by Service" data={stats?.byService ?? []} />
@@ -64,7 +66,7 @@ function DashboardPage() {
       <InsightsCard insights={insights?.insights ?? []} loading={loading} />
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="px-4 py-3">
           <CardTitle className="text-base font-semibold">Recent Leads</CardTitle>
         </CardHeader>
         <CardContent className="p-0">

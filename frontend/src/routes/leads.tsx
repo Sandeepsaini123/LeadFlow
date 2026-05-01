@@ -78,10 +78,10 @@ function LeadsPage() {
   });
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-6">
+    <div className="mx-auto flex max-w-7xl flex-col gap-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Leads</h1>
           <p className="text-sm text-muted-foreground">{leads.length} total leads</p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
@@ -91,10 +91,10 @@ function LeadsPage() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search name, email, city…"
-              className="pl-9 sm:w-72"
+              className="pl-9 w-full sm:w-72"
             />
           </div>
-          <Button onClick={() => { setEditing(null); setOpen(true); }}>
+          <Button onClick={() => { setEditing(null); setOpen(true); }} className="w-full sm:w-auto">
             <Plus className="mr-1 h-4 w-4" /> Add Lead
           </Button>
         </div>
@@ -112,7 +112,7 @@ function LeadsPage() {
       </Card>
 
       <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) setEditing(null); }}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="w-full max-w-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editing ? "Edit Lead" : "Add New Lead"}</DialogTitle>
           </DialogHeader>

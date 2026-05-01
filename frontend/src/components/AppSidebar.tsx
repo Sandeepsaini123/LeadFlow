@@ -23,13 +23,13 @@ export function AppSidebar() {
   const isActive = (url: string) => (url === "/" ? path === "/" : path.startsWith(url));
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="offcanvas">
       <SidebarHeader>
-        <div className="flex items-center gap-2 overflow-hidden px-2 py-3 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+        <div className="flex items-center gap-2 overflow-hidden px-2 py-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
             <Sparkles className="h-4 w-4" />
           </div>
-          <div className="flex flex-col leading-tight group-data-[collapsible=icon]:hidden">
+          <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold">LeadFlow</span>
             <span className="text-xs text-muted-foreground">Lead Manager</span>
           </div>

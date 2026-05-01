@@ -79,7 +79,7 @@ export function LeadForm({ defaultValues, onSubmit, submitting, onCancel }: Prop
   const status = watch("status");
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-2" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 grid-cols-1 sm:grid-cols-2" noValidate>
       <Field label="Name" error={errors.name?.message} required>
         <Input
           {...register("name")}

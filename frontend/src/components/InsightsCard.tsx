@@ -44,7 +44,7 @@ export function InsightsCard({ insights, loading }: Props) {
         ) : insights.length === 0 ? (
           <p className="text-sm text-muted-foreground">Add some leads to see insights.</p>
         ) : (
-          <ul className="space-y-2">
+          <ul className="grid gap-2 grid-cols-1 sm:grid-cols-2">
             {insights.map((insight, i) => {
               const Icon = iconMap[insight.icon] ?? Lightbulb;
               const style = typeStyles[insight.type] ?? "bg-muted text-muted-foreground";

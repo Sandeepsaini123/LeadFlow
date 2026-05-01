@@ -75,36 +75,39 @@ function ReportsPage() {
   };
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-6">
+    <div className="mx-auto flex max-w-7xl flex-col gap-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Reports</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Reports</h1>
         <p className="text-sm text-muted-foreground">Filter leads by date, city, service, and status.</p>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader className="flex flex-row items-center gap-2 py-2 px-4">
+        <CardHeader className="flex flex-row items-center gap-2 py-3 px-4">
           <Filter className="h-3.5 w-3.5 text-muted-foreground" />
           <CardTitle className="text-sm font-semibold">Filters</CardTitle>
         </CardHeader>
-        <CardContent className="px-4 pb-3 pt-0">
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-6">
+        <CardContent className="px-4 pb-4 pt-0">
+          {/* Mobile: 2 cols, Tablet: 3 cols, Desktop: 6 cols */}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             <DateField label="From" value={from} onChange={setFrom} />
             <DateField label="To" value={to} onChange={setTo} />
             <FilterSelect label="City" value={city} onChange={setCity} options={META.CITIES} />
             <FilterSelect label="Status" value={status} onChange={setStatus} options={META.STATUSES} />
             <FilterSelect label="Service" value={service} onChange={setService} options={META.SERVICES} />
-            <div className="flex items-end">
-              <Button onClick={apply} size="sm" className="flex-1">Apply Filters</Button>
+            <div className="flex items-end col-span-2 sm:col-span-1">
+              <Button onClick={apply} size="sm" className="flex-1">Apply</Button>
             </div>
           </div>
         </CardContent>
       </Card>
 
       <Card className="shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between px-4 py-3">
           <CardTitle className="text-base font-semibold">Results ({rows.length})</CardTitle>
           <Button variant="outline" size="sm" onClick={exportCsv}>
-            <Download className="mr-1 h-4 w-4" /> Export CSV
+            <Download className="mr-1 h-4 w-4" />
+            <span className="hidden sm:inline">Export CSV</span>
+            <span className="sm:hidden">Export</span>
           </Button>
         </CardHeader>
         <CardContent className="p-0">
@@ -152,10 +155,10 @@ function DateField({
           <Button
             variant="outline"
             size="sm"
-            className={cn("h-8 justify-start text-xs font-normal", !value && "text-muted-foreground")}
+            className={cn("h-8 justify-start text-xs font-normal w-full", !value && "text-muted-foreground")}
           >
-            <CalendarIcon className="mr-1.5 h-3.5 w-3.5" />
-            {value ? format(value, "dd MMM yy") : <span>Pick a date</span>}
+            <CalendarIcon className="mr-1.5 h-3.5 w-3.5 shrink-0" />
+            {value ? format(value, "dd MMM yy") : <span>Pick date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
